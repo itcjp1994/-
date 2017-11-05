@@ -1,0 +1,14 @@
+<IfModule mod_rewrite.c>
+  Options +FollowSymlinks
+  RewriteEngine On
+  
+#重写条件,不是从本域名发来的请求,就会触发
+  RewriteCond &{HTTP_REFERER}&	!www.shop.com
+#重写的规则,后缀为图片格式的请求,返回图片default.png,由ueditor编辑器发送的请求可以跳过
+  RewriteRule ^(?!(ueditor))(.*)(jpg|png|gif|jpeg)$ default.png
+  
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule ^(.*)$ index.php/$1 [QSA,PT,L]
+#  RewriteRule ^(.*)$ index.php?s=$1 [QSA,PT,L]
+</IfModule>
